@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0D9488" />
+  <title>系统解剖学 · 刷题</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶栏 -->
+    <header class="topbar" id="topbar">
+      <button class="icon-btn" id="backBtn" aria-label="返回" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <h1 class="title" id="pageTitle">系解刷题</h1>
+      <div class="topbar-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+          <svg id="themeIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <button class="icon-btn" id="homeBtn" aria-label="首页" title="返回首页">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 首页 -->
+      <section class="view view-home active" data-view="home">
+        <div class="hero">
+          <div class="hero-bg"></div>
+          <div class="hero-inner">
+            <div class="hero-tag">🦴 系统解剖学</div>
+            <h2 class="hero-title">24级系解真题</h2>
+            <p class="hero-sub">A1型题 · A2型题 · B型题 ｜ 共计 100 题</p>
+          </div>
+        </div>
+        <div class="quick-entry">
+          <button class="quick-card" id="statsEntry">
+            <div class="qi" style="background:linear-gradient(135deg,#0D9488,#06B6D4)">📊</div>
+            <div><div class="qt">学习统计</div><div class="qd" id="quickStats">查看进度</div></div>
+          </button>
+          <button class="quick-card" id="bookmarkEntry">
+            <div class="qi" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">⭐</div>
+            <div><div class="qt">收藏夹</div><div class="qd" id="quickBookmark">0 道收藏</div></div>
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-title">题型分布</div>
+          <div class="type-bars" id="typeBars"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">练习模式</div>
+          <div class="mode-grid">
+            <button class="mode-card" data-mode="random">
+              <div class="mode-icon" style="background:linear-gradient(135deg,#0D9488,#06B6D4)">⚡</div>
+              <div class="mode-name">随机刷题</div>
+              <div class="mode-desc">全部题型混合随机</div>
+            </button>
+            <button class="mode-card" data-mode="sequential">
+              <div class="mode-icon" style="background:linear-gradient(135deg,#22C55E,#10B981)">📚</div>
+              <div class="mode-name">逐题练习</div>
+              <div class="mode-desc">按顺序一题一题过</div>
+            </button>
+            <button class="mode-card" data-mode="wrong">
+              <div class="mode-icon" style="background:linear-gradient(135deg,#EF4444,#F59E0B)">🔥</div>
+              <div class="mode-name">错题重练</div>
+              <div class="mode-desc">只刷做错的题目</div>
+            </button>
+            <button class="mode-card" data-mode="exam">
+              <div class="mode-icon" style="background:linear-gradient(135deg,#6366F1,#A855F7)">🏆</div>
+              <div class="mode-name">模拟考试</div>
+              <div class="mode-desc">限时作答自动判分</div>
+            </button>
+          </div>
+        </div>
+        <div class="card" id="typeFilterCard">
+          <div class="card-title">题型筛选</div>
+          <div class="type-pills" id="typePills">
+            <button class="pill" data-type="all" data-active="1">全部题型</button>
+          </div>
+        </div>
+        <button class="primary-btn" id="startBtn">开始刷题</button>
+        <div class="footer-tip">所有进度本地保存，不会上传你的答题记录</div>
+      </section>
+
+      <!-- 答题页 -->
+      <section class="view view-quiz" data-view="quiz">
+        <div class="quiz-top">
+          <div class="progress-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="quiz-meta">
+            <span id="quizProgress">1 / 100</span>
+            <span id="quizMode">随机刷题</span>
+            <span id="accuracyBadge" class="accuracy-badge" style="display:none">
+              <span class="acc-dot"></span><span id="accuracyText">100%</span>
+            </span>
+            <span id="streakBadge" class="streak-badge" hidden><span class="fire">🔥</span><span id="streakNum">0</span></span>
+            <span id="quizTimer" hidden>⏱ <em id="timerText">00:00</em></span>
+          </div>
+        </div>
+        <div class="question-card" id="questionCard"></div>
+        <div class="quiz-actions">
+          <button class="ghost-btn" id="prevBtn">上一题</button>
+          <button class="ghost-btn" id="submitBtn">提交答案</button>
+          <button class="primary-btn" id="nextBtn">下一题</button>
+        </div>
+      </section>
+
+      <!-- 错题库页 -->
+      <section class="view view-wrong" data-view="wrong">
+        <div class="section-header">
+          <h2>错题题库</h2>
+          <button class="ghost-btn small danger" id="clearWrongBtn">清空</button>
+        </div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="wrongSearch" placeholder="搜索错题关键词..." />
+        </div>
+        <div class="wrong-list" id="wrongList"></div>
+        <div class="empty-state" id="wrongEmpty" hidden>
+          <div class="empty-icon">🎉</div>
+          <div class="empty-text">太棒了！还没有错题</div>
+        </div>
+      </section>
+
+      <!-- 统计页 -->
+      <section class="view view-stats" data-view="stats">
+        <div class="section-header"><h2>学习统计</h2></div>
+        <div class="stats-dashboard" id="statsDashboard"></div>
+      </section>
+
+      <!-- 收藏页 -->
+      <section class="view view-bookmark" data-view="bookmark">
+        <div class="section-header"><h2>收藏夹</h2></div>
+        <div class="wrong-list" id="bookmarkList"></div>
+        <div class="empty-state" id="bookmarkEmpty" hidden>
+          <div class="empty-icon">⭐</div>
+          <div class="empty-text">还没有收藏的题目</div>
+        </div>
+      </section>
+
+      <!-- 考试结果页 -->
+      <section class="view view-result" data-view="result">
+        <div class="result-card">
+          <div class="score-ring-wrap">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <defs>
+                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#0D9488" /><stop offset="100%" stop-color="#06B6D4" />
+                </linearGradient>
+              </defs>
+              <circle class="score-ring-bg" cx="80" cy="80" r="68" />
+              <circle class="score-ring-fg" id="scoreRingFg" cx="80" cy="80" r="68" stroke-dasharray="427" stroke-dashoffset="427" />
+            </svg>
+            <div class="score-ring-text">
+              <div class="num" id="resultScore">0</div>
+              <div class="lbl">/ <span id="resultTotal">0</span> 分</div>
+            </div>
+          </div>
+          <div class="result-stats" id="resultStats"></div>
+          <div class="result-actions">
+            <button class="primary-btn" id="reviewBtn">查看错题</button>
+            <button class="ghost-btn" id="backHomeBtn">返回首页</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部 Tab -->
+    <nav class="tabbar" id="tabbar">
+      <button class="tab" data-go="home" data-active="1">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+        <span>首页</span>
+      </button>
+      <button class="tab" data-go="stats">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg>
+        <span>统计</span>
+      </button>
+      <button class="tab" data-go="wrong">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+        <span>错题</span>
+      </button>
+    </nav>
+
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
